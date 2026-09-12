@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Space Grotesk', 'Space Mono', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-heading: 'Syne', 'Space Grotesk', sans-serif;
+    --font-body: 'Space Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #0c0c0c;
+    color: #f4f4f0;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .font-mono-code, .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .font-syne {
+    font-family: var(--font-heading);
+  }
+}
+
+/* ==========================================================================
+   NEO-BRUTALIST DESIGN SYSTEM UTILITIES
+   ========================================================================== */
+
+/* Hard solid drop shadows */
+.neo-shadow-black {
+  box-shadow: 4px 4px 0px #000000;
+}
+
+.neo-shadow-black-sm {
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.neo-shadow-black-lg {
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.neo-shadow-lime {
+  box-shadow: 4px 4px 0px #c3f400;
+}
+
+.neo-shadow-lime-lg {
+  box-shadow: 6px 6px 0px #c3f400;
+}
+
+.neo-shadow-white {
+  box-shadow: 4px 4px 0px #ffffff;
+}
+
+.neo-shadow-red {
+  box-shadow: 4px 4px 0px #ff4757;
+}
+
+.neo-shadow-cyan {
+  box-shadow: 4px 4px 0px #00f0ff;
+}
+
+/* Neo-brutalist interactive tactile buttons */
+.neo-btn-press {
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.neo-btn-press:hover {
+  transform: translate(-2px, -2px);
+}
+
+.neo-btn-press:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px transparent !important;
+}
+
+/* Neo-Brutalist Grid and Dot-Matrix Backgrounds */
+.neo-grid-bg {
+  background-size: 28px 28px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+.neo-dots-bg {
+  background-image: radial-gradient(rgba(195, 244, 0, 0.18) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+.neo-dots-white {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+}
+
+/* Hazard Tape / Warning Stripes */
+.hazard-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    #c3f400,
+    #c3f400 12px,
+    #000000 12px,
+    #000000 24px
+  );
+}
+
+.hazard-stripes-subtle {
+  background: repeating-linear-gradient(
+    -45deg,
+    #181818,
+    #181818 10px,
+    #242424 10px,
+    #242424 20px
+  );
+}
+
+/* Neo Barcodes */
+.barcode-dark {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #000000,
+    #000000 2px,
+    transparent 2px,
+    transparent 4px,
+    #000000 4px,
+    #000000 7px,
+    transparent 7px,
+    transparent 9px,
+    #000000 9px,
+    #000000 10px,
+    transparent 10px,
+    transparent 14px,
+    #000000 14px,
+    #000000 17px,
+    transparent 17px,
+    transparent 19px
+  );
+}
+
+.barcode-lime {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #c3f400,
+    #c3f400 2px,
+    transparent 2px,
+    transparent 4px,
+    #c3f400 4px,
+    #c3f400 6px,
+    transparent 6px,
+    transparent 9px,
+    #c3f400 9px,
+    #c3f400 12px,
+    transparent 12px,
+    transparent 15px,
+    #c3f400 15px,
+    #c3f400 16px,
+    transparent 16px,
+    transparent 18px
+  );
+}
+
+/* Infinite Marquee Animation */
+@keyframes neo-marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-neo-marquee {
+  display: flex;
+  width: max-content;
+  animation: neo-marquee 22s linear infinite;
+}
+
+.animate-neo-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Ticket Stub Notched Edges */
+.ticket-edge {
+  mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 11px), radial-gradient(circle at 100% 50%, transparent 10px, black 11px);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-position: 0 0, 100% 0;
+  -webkit-mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 11px), radial-gradient(circle at 100% 50%, transparent 10px, black 11px);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0, 100% 0;
+}
+
+/* Custom Neo Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+  border-left: 2px solid #222222;
+}
+::-webkit-scrollbar-thumb {
+  background: #c3f400;
+  border: 1px solid #000000;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+
+@keyframes custom-scale-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+.animate-custom-pulse {
+  animation: custom-scale-pulse 2s ease-in-out infinite;
+}

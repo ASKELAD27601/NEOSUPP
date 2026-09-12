@@ -1,0 +1,6 @@
+{
+  "name": "NEOSUPP BY NEO NUTRITION",
+  "description": "Tienda oficial NEOSUPP BY NEO NUTRITION: suplementación deportiva de alto rendimiento, creatina micronizada, pre-entrenos avanzados y pases de entrenamiento.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
