@@ -48,23 +48,26 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md flex items-start justify-center pt-20 p-4 font-mono">
-      <div className="bg-[#111111] border-3 border-black text-[#f4f4f0] w-full max-w-2xl neo-shadow-lime-lg overflow-hidden">
+      {/* Backdrop click handler */}
+      <div className="absolute inset-0 z-0" onClick={onClose}></div>
+      
+      <div className="bg-[#111111] border-3 border-black text-[#f4f4f0] w-full max-w-2xl neo-shadow-lime-lg overflow-hidden relative z-10">
         {/* Search Input Bar */}
         <div className="p-4 border-b-3 border-black bg-[#181818] flex items-center gap-3">
           <Search className="w-5 h-5 text-[#c3f400]" />
           <input
             type="text"
             autoFocus
-            placeholder="BUSCAR SUPLEMENTOS, SABORES, INGREDIENTES..."
+            placeholder="BUSCAR SUPLEMENTOS..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent text-white font-mono text-sm uppercase placeholder-[#777] font-bold focus:outline-none"
+            className="flex-1 bg-transparent text-white font-mono text-sm uppercase placeholder-[#777] font-bold focus:outline-none min-w-0"
           />
           <button
             onClick={onClose}
-            className="text-xs bg-black text-[#c3f400] px-2 py-1 border border-[#333] font-bold hover:bg-[#c3f400] hover:text-black transition-colors"
+            className="text-xs bg-black text-[#c3f400] px-2 py-1 border border-[#333] font-bold hover:bg-[#c3f400] hover:text-black transition-colors shrink-0"
           >
-            [ESC]
+            CERRAR [ESC]
           </button>
         </div>
 

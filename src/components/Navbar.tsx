@@ -187,7 +187,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 md:gap-3">
           <div className="hidden sm:block">
             <PWAInstallButton />
           </div>
@@ -195,21 +195,24 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={onOpenSearch}
             aria-label="Buscar"
-            className="p-2 bg-[#171717] border-2 border-[#333] text-white hover:border-[#c3f400] hover:text-[#c3f400] shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all"
+            className="flex items-center gap-2 p-2 sm:px-3 sm:py-2 bg-[#171717] border-2 border-[#333] text-white hover:border-[#c3f400] hover:text-black hover:bg-[#c3f400] shadow-[2px_2px_0px_#000] hover:shadow-[4px_4px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all font-mono font-bold text-xs"
           >
             <Search className="w-4 h-4" />
+            <span className="hidden sm:inline">BUSCAR</span>
           </button>
 
           <button
             onClick={onOpenCart}
             aria-label="Carrito de compras"
-            className="flex items-center gap-2 px-3 py-2 bg-[#c3f400] text-black border-2 border-black shadow-[3px_3px_0px_#ffffff] hover:shadow-[4px_4px_0px_#ffffff] active:translate-x-0.5 active:translate-y-0.5 transition-all font-mono font-bold text-xs"
+            className="flex items-center gap-2 p-2 sm:px-3 sm:py-2 bg-[#c3f400] text-black border-2 border-black shadow-[2px_2px_0px_#ffffff] hover:shadow-[4px_4px_0px_#ffffff] active:translate-x-0.5 active:translate-y-0.5 transition-all font-mono font-bold text-xs"
           >
             <ShoppingCart className="w-4 h-4" />
             <span className="hidden sm:inline">CART</span>
-            <span className="bg-black text-[#c3f400] text-[11px] px-1.5 py-0.2 border border-black">
-              {cartCount}
-            </span>
+            {cartCount > 0 && (
+              <span className="bg-black text-[#c3f400] text-[10px] px-1.5 py-0.5 border border-black min-w-[20px] text-center flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
@@ -230,22 +233,27 @@ export const Navbar: React.FC<NavbarProps> = ({
               onSelectCategory('all');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left py-2 px-3 bg-[#181818] border-2 border-[#333] text-white font-bold hover:border-[#c3f400] hover:bg-[#c3f400] hover:text-black shadow-[3px_3px_0px_#000] transition-all"
+            className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex items-center justify-between ${
+              selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId
+                ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
+                : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
+            }`}
           >
-            CATÁLOGO COMPLETO
+            <span>CATÁLOGO COMPLETO</span>
+            {selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId && <span>✓</span>}
           </button>
 
-          <div className="pl-2 space-y-1.5 border-l-2 border-[#c3f400]">
+          <div className="pl-2 space-y-1.5 border-l-2 border-[#333]">
             {[
               { id: 'combos', label: 'PROMOS Y COMBOS' },
               { id: 'creatinas', label: 'CREATINAS' },
               { id: 'proteinas', label: 'PROTEINAS ISOLADAS' },
               { id: 'preentreno', label: 'PREENTRENO Y ACCESORIOS' },
               { id: 'snacks', label: 'SNACKS' },
-            { id: 'salsas', label: 'SALSAS GOURMET' },
-            { id: 'bienestar', label: 'SALUD Y BIENESTAR' },
-            { id: 'quemadores', label: 'QUEMADORES' },
-            { id: 'diureticos', label: 'DIURÉTICOS' },
+              { id: 'salsas', label: 'SALSAS GOURMET' },
+              { id: 'bienestar', label: 'SALUD Y BIENESTAR' },
+              { id: 'quemadores', label: 'QUEMADORES' },
+              { id: 'diureticos', label: 'DIURÉTICOS' },
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -253,9 +261,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onSelectCategory(cat.id);
                   setMobileMenuOpen(false);
                 }}
-                className="w-full text-left py-1.5 px-2 text-xs font-mono text-[#dcdcd8] hover:text-[#c3f400] flex justify-between items-center"
+                className={`w-full text-left py-2 px-3 text-xs font-mono border-2 transition-all flex justify-between items-center ${
+                  selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId
+                    ? 'bg-[#c3f400] text-black border-black font-bold shadow-[2px_2px_0px_#ffffff]'
+                    : 'bg-[#111] text-[#a0a09a] border-transparent hover:border-white hover:text-white hover:bg-[#181818]'
+                }`}
               >
-                <span>→ {cat.label}</span>
+                <span>{selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId ? '✓' : '→'} {cat.label}</span>
               </button>
             ))}
           </div>
@@ -265,9 +277,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               setActiveTab('about');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left py-2 px-3 bg-[#181818] border-2 border-[#333] text-white font-bold hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000] transition-all"
+            className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex justify-between items-center ${
+              activeTab === 'about'
+                ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
+                : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
+            }`}
           >
-            SOMOS <span className="text-[9px] text-[#c3f400]">BY NEO NUTRITION</span>
+            <span>SOMOS <span className="text-[9px] opacity-70">BY NEO NUTRITION</span></span>
+            {activeTab === 'about' && <span>✓</span>}
           </button>
         </div>
       )}
