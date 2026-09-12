@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, Menu, X, Zap } from 'lucide-react';
 import { Product } from '../types';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface NavbarProps {
   activeTab: 'shop' | 'tickets' | 'athletes' | 'about' | 'rules';
@@ -187,6 +188,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2.5">
+          <div className="hidden sm:block">
+            <PWAInstallButton />
+          </div>
+
           <button
             onClick={onOpenSearch}
             aria-label="Buscar"
@@ -214,6 +219,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="md:hidden bg-[#111111] border-b-4 border-[#c3f400] p-5 space-y-4 font-mono">
           <div className="text-[10px] text-[#c3f400] uppercase font-bold tracking-widest border-b border-[#262626] pb-2">
             // NEO NAVIGATION MENU
+          </div>
+          
+          <div className="w-full flex justify-center pb-2">
+            <PWAInstallButton />
           </div>
           
           <button
