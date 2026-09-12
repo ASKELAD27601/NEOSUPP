@@ -141,7 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : 'bg-[#181818] text-[#e0e0dc] border-[#333333] hover:border-[#c3f400] hover:text-white shadow-[2px_2px_0px_#000]'
             }`}
           >
-            [ CATÁLOGO ]
+            CATÁLOGO
           </button>
 
           {/* Categories */}
@@ -182,7 +182,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 : 'bg-[#181818] text-[#e0e0dc] border-[#333333] hover:border-white hover:text-white shadow-[2px_2px_0px_#000]'
             }`}
           >
-            ABOUT / LAB
+            SOMOS
           </button>
         </div>
 
@@ -232,7 +232,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="w-full text-left py-2 px-3 bg-[#181818] border-2 border-[#333] text-white font-bold hover:border-[#c3f400] hover:bg-[#c3f400] hover:text-black shadow-[3px_3px_0px_#000] transition-all"
           >
-            [01] CATÁLOGO COMPLETO
+            CATÁLOGO COMPLETO
           </button>
 
           <div className="pl-2 space-y-1.5 border-l-2 border-[#c3f400]">
@@ -267,7 +267,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }}
             className="w-full text-left py-2 px-3 bg-[#181818] border-2 border-[#333] text-white font-bold hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000] transition-all"
           >
-            [02] ABOUT NEOSUPP <span className="text-[9px] text-[#c3f400]">BY NEO NUTRITION</span> // LAB
+            SOMOS <span className="text-[9px] text-[#c3f400]">BY NEO NUTRITION</span>
           </button>
         </div>
       )}

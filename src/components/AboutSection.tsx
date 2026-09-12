@@ -20,7 +20,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onGoToShop }) => {
         </h1>
 
         <p className="text-xs sm:text-sm text-[#d4d4cc] max-w-3xl leading-relaxed">
-          <strong className="text-white">NEOSUPP <span className="text-sm text-[#c3f400]">BY NEO NUTRITION</span></strong> nació con una premisa estricta: formular suplementación deportiva pura, verificada en laboratorio por HPLC, con dosificaciones clínicas transparentes y sin trucos comerciales.
+          <strong className="text-white">SOMOS NUTRICIONISTAS DEPORTIVOS</strong> enfocados en tu máximo rendimiento. <strong className="text-white">NEOSUPP <span className="text-sm text-[#c3f400]">BY NEO NUTRITION</span></strong> nació con una premisa estricta: formular suplementación deportiva pura, verificada en laboratorio por HPLC, con dosificaciones clínicas transparentes y sin trucos comerciales.
         </p>
       </div>
 
@@ -67,7 +67,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onGoToShop }) => {
             DE LA CIENCIA MOLECULAR A TU MÁXIMO RÉCORD
           </h2>
           <p className="text-xs sm:text-sm text-[#b8b8b0] leading-relaxed">
-            Nuestros bioquímicos deportivos seleccionan exclusivamente materias primas con grado de pureza superior al 99.8%. No fabricamos suplementos para consumo masivo; fabricamos herramientas de rendimiento para atletas.
+            Como nutricionistas deportivos y profesionales de la salud, sabemos que no existen atajos. Nuestros bioquímicos deportivos seleccionan exclusivamente materias primas con grado de pureza superior al 99.8%. No fabricamos suplementos para consumo masivo; fabricamos herramientas de rendimiento para atletas.
           </p>
 
           <button

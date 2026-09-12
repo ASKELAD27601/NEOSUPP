@@ -70,23 +70,36 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </button>
       </div>
 
-      {/* Neo-Brutalist Hero Header Block */}
-      <div className="bg-[#121212] border-2 border-black p-3 sm:p-4 md:p-5 neo-shadow-lime relative overflow-hidden">
-        <div className="absolute -right-8 -top-8 bg-[#c3f400] text-black font-bold text-[10px] px-10 py-0.5 rotate-12 border-2 border-black uppercase tracking-widest hidden sm:block">
-          CLINICAL GRADE // 2026
+      {/* Neo-Brutalist Promo MR VEINZ Block */}
+      <div 
+        className="bg-[#1a0505] border-2 border-[#ff4757] p-4 md:p-6 shadow-[6px_6px_0px_#ff4757] relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 cursor-pointer hover:bg-[#250505] transition-colors group"
+        onClick={() => {
+          const mrVeinz = products.find(p => p.name === 'MR VEINZ');
+          if (mrVeinz) onSelectProduct(mrVeinz.id);
+        }}
+      >
+        <div className="absolute -right-8 -top-8 bg-[#ff4757] text-white font-black text-[10px] px-10 py-1 rotate-12 border-2 border-black uppercase tracking-widest z-0 hidden sm:block">
+          PROMO DEL MES // LIMITADA
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-3 sm:gap-4">
-          <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 py-0.5 sm:px-2 sm:py-0.5 bg-[#c3f400] text-black font-bold text-[9px] sm:text-[10px] uppercase border border-black shadow-[2px_2px_0px_#ffffff]">
-              <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-black" />
-              <span>OFFICIAL DISPENSARY</span>
-            </div>
-            
-            <h1 className="text-xl sm:text-3xl md:text-4xl font-mono font-bold text-white uppercase tracking-tight leading-none">
-              SUPLEMENTACIÓN <span className="bg-[#ff4757] text-white px-1.5 py-0.5 sm:px-2 inline-block border-2 border-black rotate-[-1deg]">NO LIMITS</span>
-            </h1>
+        <div className="space-y-3 z-10 w-full md:w-2/3">
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-[#ff4757] text-white font-bold text-[10px] uppercase border border-black shadow-[2px_2px_0px_#000000]">
+            <Flame className="w-3 h-3 fill-white" />
+            <span>PROMO DEL MES</span>
           </div>
+          
+          <h1 className="text-3xl md:text-5xl font-mono font-black text-white uppercase tracking-tight leading-none">
+            MR VEINZ <span className="text-transparent [-webkit-text-stroke:1px_#ff4757]">PUMP FORMULA</span>
+          </h1>
+          <p className="text-[#ff9999] text-xs max-w-lg font-mono">
+            La fórmula definitiva de óxido nítrico para bombeos extremos, vascularidad y entrega de nutrientes. 6g de L-Citrulina por servicio.
+          </p>
+        </div>
+        
+        <div className="z-10 shrink-0">
+            <button className="bg-[#ff4757] text-white font-black font-mono border-2 border-black px-4 py-2 sm:px-6 sm:py-3 text-xs sm:text-sm shadow-[4px_4px_0px_#000000] group-hover:translate-y-1 group-hover:translate-x-1 group-hover:shadow-[0px_0px_0px_#000000] transition-all flex items-center gap-2">
+                VER PROMO MR VEINZ <ArrowUpRight className="w-4 h-4" />
+            </button>
         </div>
       </div>
 
