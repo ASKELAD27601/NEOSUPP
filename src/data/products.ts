@@ -836,7 +836,7 @@ export const PRODUCTS: Product[] = [
     name: 'MR VEINZ',
     subtitle: 'STIM-FREE PUMP & NOOTROPIC PRE-WORKOUT',
     series: 'PERFORMANCE',
-    category: 'combo',
+    category: 'pre-workout',
     brand: 'DRAGON PHARMA',
     price: 290,
     originalPrice: 400,
@@ -845,18 +845,17 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 140,
     badge: '🔥 PROMO SEPTIEMBRE',
     description: 'Aprovecha nuestra promoción por el mes de septiembre. Fórmula pre-entrenamiento sin estimulantes diseñada para un bombeo muscular extremo, vasodilatación máxima y enfoque cognitivo avanzado sin cafeína.',
-    image: '/images/products/mrveinz-promo.png',
-    secondaryImage: '/images/products/mrveinz-mango.png',
+    image: '/images/products/mrveinz-orange.png',
     flavors: ['ORANGE', 'MANGO', 'JACKED', 'KIWI SMASH'],
     currentFlavor: 'ORANGE',
     flavorImages: {
-      'ORANGE': '/images/products/mrveinz-promo.png',
+      'ORANGE': '/images/products/mrveinz-orange.png',
       'MANGO': '/images/products/mrveinz-mango.png',
       'JACKED': '/images/products/mrveinz-jacked.png',
       'KIWI SMASH': '/images/products/mrveinz-kiwi.png'
     },
     flavorThemes: {
-      'ORANGE': { color: '#ff6a00', accentBg: '#4a1e00', tag: '🍊 ORANGE', label: 'ORANGE', image: '/images/products/mrveinz-promo.png', netWt: 'NET WT 20/40 SERV' },
+      'ORANGE': { color: '#ff6a00', accentBg: '#4a1e00', tag: '🍊 ORANGE', label: 'ORANGE', image: '/images/products/mrveinz-orange.png', netWt: 'NET WT 20/40 SERV' },
       'MANGO': { color: '#ffb700', accentBg: '#4a3500', tag: '🥭 MANGO', label: 'MANGO', image: '/images/products/mrveinz-mango.png', netWt: 'NET WT 20/40 SERV' },
       'JACKED': { color: '#e81c23', accentBg: '#4a090b', tag: '🍎 JACKED', label: 'JACKED', image: '/images/products/mrveinz-jacked.png', netWt: 'NET WT 20/40 SERV' },
       'KIWI SMASH': { color: '#88b04b', accentBg: '#2f4215', tag: '🥝 KIWI', label: 'KIWI SMASH', image: '/images/products/mrveinz-kiwi.png', netWt: 'NET WT 20/40 SERV' }

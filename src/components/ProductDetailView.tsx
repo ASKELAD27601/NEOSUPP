@@ -25,7 +25,7 @@ import { Product } from '../types';
 interface ProductDetailViewProps {
   product: Product;
   allProducts: Product[];
-  onSelectProduct: (id: string) => void;
+  onSelectProduct: (id: string | null) => void;
   onAddToCart: (product: Product, flavor: string, size: string, quantity: number) => void;
   onBuyNow: (product: Product, flavor: string, size: string, quantity: number) => void;
 }
@@ -113,33 +113,20 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
 
       {/* Navigation Breadcrumb Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#2b2b2b] pb-4">
-        <div className="flex items-center gap-2 text-xs text-[#a0a09a]">
-          <span className="text-[#c3f400] font-bold uppercase">{product.brand || 'NEOSUPP'}</span>
-          <span>/</span>
-          <span className="text-white uppercase">{product.category}</span>
-          <span>/</span>
-          <span className="text-white font-bold bg-[#1e1e1e] px-2 py-0.5 border border-[#444]">
+        <div className="flex items-center gap-2 text-xs text-[#a0a09a] w-full">
+          <button 
+            onClick={() => onSelectProduct(null)}
+            className="flex items-center gap-1 hover:text-white transition-colors bg-[#181818] border border-[#333] px-2 py-0.5 hover:border-[#c3f400] mr-2 text-white font-bold neo-shadow-black"
+          >
+            ← CATÁLOGO
+          </button>
+          <span className="text-[#c3f400] font-bold uppercase hidden sm:inline">{product.brand || 'NEOSUPP'}</span>
+          <span className="hidden sm:inline">/</span>
+          <span className="text-white uppercase hidden sm:inline">{product.category}</span>
+          <span className="hidden sm:inline">/</span>
+          <span className="text-white font-bold bg-[#1e1e1e] px-2 py-0.5 border border-[#444] truncate">
             {product.name}
           </span>
-        </div>
-
-        {/* Quick Product Switcher Tabs */}
-        <div className="flex items-center gap-2 w-full xl:w-auto min-w-0">
-          <div className="flex items-center gap-1.5 overflow-x-auto min-w-0 flex-1 pb-1 custom-scrollbar">
-            {allProducts.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => onSelectProduct(p.id)}
-                className={`px-3 py-1 text-xs uppercase font-bold border-2 transition-all neo-btn-press whitespace-nowrap flex-shrink-0 ${
-                  p.id === product.id
-                    ? 'bg-[#c3f400] text-black border-black shadow-[2px_2px_0px_#ffffff]'
-                    : 'bg-[#181818] text-[#888] border-[#333] hover:text-white hover:border-[#c3f400]'
-                }`}
-              >
-                {p.name.split(' ')[0]}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
