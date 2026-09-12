@@ -21,15 +21,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   // Cart & Modals State
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      product: PRODUCTS[0],
-      flavor: 'UNFLAVORED',
-      size: '300g (60 SERV)',
-      quantity: 1,
-      price: PRODUCTS[0].price,
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
