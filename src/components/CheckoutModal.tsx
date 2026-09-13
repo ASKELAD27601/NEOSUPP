@@ -4,15 +4,9 @@ import {
   X,
   ShieldCheck,
   CheckCircle2,
-  Printer,
-  CreditCard,
-  Building,
-  Sparkles,
   ArrowRight,
   QrCode,
-  Upload,
-  FileImage,
-  MessageCircle
+  Upload
 } from 'lucide-react';
 
 interface CheckoutModalProps {
@@ -32,9 +26,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   promoCode,
   onClearCart,
 }) => {
-  const [step, setStep] = useState<'form' | 'processing' | 'ticket'>('form');
-  const [orderId, setOrderId] = useState<string>('');
-  const [orderDate, setOrderDate] = useState<string>('');
+  const [step, setStep] = useState<'form' | 'processing'>('form');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -113,7 +105,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       message += `- ${item.quantity}x ${item.product.name} (${item.size}) - ${item.price * item.quantity} ${item.product.currency}\n`;
     });
     if (promoCode) {
-      message += `\n*Descuento:* Promo ${promoCode} (-${discountInfo?.type === 'percent' ? discountInfo.value + '%' : discountInfo?.value + ' Bs./item'})\n`;
+      message += `\n*Descuento:* Código [${promoCode.toUpperCase()}] aplicado (-${discountInfo?.type === 'percent' ? discountInfo.value + '%' : discountInfo?.value + ' Bs./item'})\n`;
     }
     
     message += `\n*PAGO:*\n`;
@@ -121,6 +113,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     message += `Método: ${methodText}\n`;
     message += `*Total ${formData.paymentMethod === 'pago_destino' ? 'a Pagar' : 'Pagado'}:* ${formatPrice(grandTotal)} ${primaryCurrency === 'Bs.' ? 'BOB' : 'USD'}\n`;
     
+    message += `\n*COMUNIDAD NEOATHLETE:*\n`;
+    message += `Link del grupo VIP: https://chat.whatsapp.com/EHkGM1909ur9QA8JFFsOo1\n`;
+
     if (formData.paymentMethod !== 'pago_destino') {
       message += `\n*ATENCIÓN:*\n`;
       if (formData.receiptName) {
@@ -138,10 +133,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     window.open(whatsappUrl, '_blank');
 
     setTimeout(() => {
-      setOrderId(generatedId);
-      setOrderDate(dateStr);
-      setStep('ticket');
       onClearCart();
+      setStep('form');
+      onClose();
     }, 1000);
   };
 
@@ -468,122 +462,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <div className="p-16 text-center space-y-6">
             <div className="w-16 h-16 border-4 border-black border-t-[#c3f400] rounded-full animate-spin mx-auto"></div>
             <h3 className="text-2xl font-mono font-bold text-white uppercase">
-              GENERANDO TICKET DIGITAL...
+              PROCESANDO PEDIDO...
             </h3>
             <p className="text-xs text-[#888] max-w-sm mx-auto font-bold">
-              Verificando inventario en NEOSUPP <span className="text-[10px] text-[#c3f400]">BY NEO NUTRITION</span> y asignando identificador único de despacho.
+              Redirigiendo a WhatsApp para finalizar tu compra...
             </p>
-          </div>
-        )}
-
-        {/* STEP 3: DIGITAL TICKET STUB */}
-        {step === 'ticket' && (
-          <div className="p-6 md:p-8 space-y-6">
-            {/* Printable Ticket */}
-            <div className="bg-[#181818] border-3 border-black p-6 md:p-8 relative overflow-hidden ticket-edge shadow-[6px_6px_0px_#c3f400]">
-              <div className="h-6 w-full barcode-lime opacity-80 mb-4"></div>
-
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b-2 border-black pb-4">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#c3f400]" />
-                    <span className="text-[11px] text-[#c3f400] uppercase font-bold tracking-widest">
-                      OFICIAL NEOSUPP <span className="text-[10px] text-[#c3f400]">BY NEO NUTRITION</span> PASS
-                    </span>
-                  </div>
-                  <h3 className="text-3xl font-mono font-bold text-white uppercase">
-                    ORDEN CONFIRMADA
-                  </h3>
-                </div>
-
-                <div className="text-right text-xs">
-                  <span className="text-[#888] block font-bold">TICKET NO.</span>
-                  <span className="text-[#c3f400] font-bold text-xl">{orderId}</span>
-                </div>
-              </div>
-
-              {/* Body */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6 text-xs border-b-2 border-black">
-                <div className="space-y-1 text-[#dcdcd4]">
-                  <span className="text-[#888] block uppercase font-bold">TITULAR DEL PEDIDO:</span>
-                  <p className="text-white font-bold text-sm">{formData.name}</p>
-                  <p>{formData.email}</p>
-                  {formData.deliveryMethod === 'sucre' ? (
-                    <p>{formData.address} (Sucre)</p>
-                  ) : (
-                    <p>{formData.city} - {formData.address}</p>
-                  )}
-                  <p className="text-[#888]">{orderDate}</p>
-                </div>
-
-                <div className="flex items-center justify-between md:justify-end gap-6">
-                  <div className="text-right space-y-1">
-                    <span className="text-[#888] block font-bold">{formData.paymentMethod === 'pago_destino' ? 'TOTAL A PAGAR' : 'TOTAL PAGADO'}</span>
-                    <span className="text-3xl font-mono font-bold text-[#c3f400]">
-                      {formatPrice(grandTotal)} {primaryCurrency === 'Bs.' ? 'BOB' : 'USD'}
-                    </span>
-                    <span className="text-[#00f0ff] text-[10px] block font-bold">✓ {formData.paymentMethod === 'pago_destino' ? 'PAGO CONTRA ENTREGA' : 'PAGO PROCESADO'}</span>
-                  </div>
-
-                  {/* QR Stamp */}
-                  <div className="bg-white p-2 border-2 border-black shadow-[2px_2px_0px_#000]">
-                    <QrCode className="w-14 h-14 text-black" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Notches */}
-              <div className="absolute top-1/2 -left-4 w-6 h-6 bg-[#0c0c0c] rounded-full -translate-y-1/2 border-r-2 border-black"></div>
-              <div className="absolute top-1/2 -right-4 w-6 h-6 bg-[#0c0c0c] rounded-full -translate-y-1/2 border-l-2 border-black"></div>
-
-              <div className="pt-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-[11px] text-[#888] font-bold">
-                <span>Presenta este código QR en el estudio o ante el repartidor.</span>
-                <span className="text-[#c3f400]">AUTHENTICATED // 2026</span>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
-              
-              {/* WhatsApp Community Notification */}
-              <div className="bg-[#25D366] border-3 border-black p-4 shadow-[4px_4px_0px_#ffffff] flex flex-col sm:flex-row items-center justify-between gap-4 animate-[pulse_2s_ease-in-out_infinite] mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 border-2 border-black rounded-full shrink-0">
-                    <MessageCircle className="w-6 h-6 text-black" />
-                  </div>
-                  <div>
-                    <h4 className="text-black font-black uppercase text-sm sm:text-base leading-tight">¡ÚNETE A LA COMUNIDAD NEOATHLETE!</h4>
-                    <p className="text-black/80 text-xs font-bold leading-tight mt-0.5">Ingresa a nuestro grupo VIP de WhatsApp.</p>
-                  </div>
-                </div>
-                <a 
-                  href="https://chat.whatsapp.com/EHkGM1909ur9QA8JFFsOo1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto shrink-0 bg-black text-white px-4 py-2.5 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_#ffffff] hover:bg-white hover:text-black transition-all text-center neo-btn-press"
-                >
-                  UNIRME AHORA
-                </a>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={handlePrint}
-                  className="flex-1 py-3 bg-black border-2 border-[#333] text-white text-xs uppercase font-bold hover:border-[#c3f400] hover:text-[#c3f400] transition-colors flex items-center justify-center gap-2 neo-btn-press"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>IMPRIMIR / GUARDAR</span>
-                </button>
-
-                <button
-                  onClick={onClose}
-                  className="flex-1 py-3 bg-[#c3f400] text-black font-mono font-bold text-xs uppercase border-2 border-black neo-shadow-black hover:bg-white transition-all flex items-center justify-center gap-2 neo-btn-press"
-                >
-                  <span>VOLVER A LA TIENDA</span>
-                  <CheckCircle2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </div>
