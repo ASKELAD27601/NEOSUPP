@@ -37,19 +37,19 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="bg-[#c3f400] text-black border-b-2 border-black py-1 overflow-hidden font-mono font-bold text-[11px] uppercase tracking-wider select-none">
         <div className="animate-neo-marquee whitespace-nowrap flex items-center gap-8">
           <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-black"></span>
+            <img src="/favicon.png" alt="Neo" className="w-4 h-4 object-contain mix-blend-multiply" />
             NEOSUPP <span className="text-[9px]">BY NEO NUTRITION</span>
           </span>
-          <span>★ 100% PUREZA CLÍNICA</span>
-          <span>✓ ENVÍO GRATIS PEDIDOS &gt; 250 Bs.</span>
+          <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /> 100% PUREZA CLÍNICA</span>
+          <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /> ENVÍO GRATIS PEDIDOS &gt; 250 Bs.</span>
           <span>[LAB-TESTED HPLC NO BANNED SUBSTANCES]</span>
-          <span>⚡ MICRONIZED CREATINE &amp; WHEY &amp; ISOLATE</span>
+          <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /> MICRONIZED CREATINE &amp; WHEY &amp; ISOLATE</span>
           <span className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-black"></span>
+            <img src="/favicon.png" alt="Neo" className="w-4 h-4 object-contain mix-blend-multiply" />
             NEOSUPP <span className="text-[9px]">BY NEO NUTRITION</span>
           </span>
-          <span>★ 100% PUREZA CLÍNICA</span>
-          <span>✓ ENVÍO GRATIS PEDIDOS &gt; 250 Bs.</span>
+          <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /> 100% PUREZA CLÍNICA</span>
+          <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /> ENVÍO GRATIS PEDIDOS &gt; 250 Bs.</span>
           <span>[LAB-TESTED HPLC NO BANNED SUBSTANCES]</span>
         </div>
       </div>
@@ -240,7 +240,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <span>CATÁLOGO COMPLETO</span>
-            {selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId && <span>✓</span>}
+            {selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId && <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /></span>}
           </button>
 
           <div className="pl-2 space-y-1.5 border-l-2 border-[#333]">
@@ -267,7 +267,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     : 'bg-[#111] text-[#a0a09a] border-transparent hover:border-white hover:text-white hover:bg-[#181818]'
                 }`}
               >
-                <span>{selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId ? '✓' : '→'} {cat.label}</span>
+                <span>{selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId ? '<img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" />' : '→'} {cat.label}</span>
               </button>
             ))}
           </div>
@@ -284,7 +284,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <span>SOMOS <span className="text-[9px] opacity-70">BY NEO NUTRITION</span></span>
-            {activeTab === 'about' && <span>✓</span>}
+            {activeTab === 'about' && <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /></span>}
           </button>
         </div>
       )}
