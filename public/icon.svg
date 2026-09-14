@@ -1,16 +1,5 @@
 
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" fill="#111111" />
-  
-  <!-- Add a brutalist border to the icon itself if maskable, but for standard icon keep it clean -->
-  <g fill="#c3f400" transform="translate(56, 126)">
-    <!-- Top Parallelogram (Slanted down to left) -->
-    <polygon points="160,0 360,0 260,130 60,130" />
-    
-    <!-- Bottom Parallelogram (Slanted down to right) -->
-    <polygon points="60,130 160,260 360,260 260,130" />
-    
-    <!-- Right Triangle (Pointing down) -->
-    <polygon points="280,130 480,130 380,260" />
-  </g>
+  <rect width="512" height="512" fill="#000000" />
+  <polygon points="206,106 406,106 306,256 406,256 306,406 106,406 206,256 106,256" fill="#ffffff" />
 </svg>
