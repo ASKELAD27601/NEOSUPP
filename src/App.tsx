@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MessageCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCTS, CLASS_TICKETS } from './data/products';
 import { Product, CartItem, ClassTicket } from './types';
 import { Navbar } from './components/Navbar';
@@ -127,22 +128,37 @@ export default function App() {
     if (found) {
       setSelectedProductId(found.id);
       setActiveTab('shop');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };
+
+  // Instant scroll-to-top whenever a product is selected so there is no scroll rolling
+  React.useEffect(() => {
+    if (selectedProductId) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+  }, [selectedProductId]);
 
   const selectedProduct = PRODUCTS.find((p) => p.id === selectedProductId);
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="min-h-screen bg-[#131313] text-[#e5e2e1] flex flex-col justify-between selection:bg-[#c3f400] selection:text-[#161e00]">
-      {/* Toast Notification Alert */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#c3f400] text-[#161e00] font-mono-code text-xs font-bold px-4 py-3 border-2 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] animate-fade-in flex items-center gap-2">
-          <span className="w-2 h-2 bg-black rounded-full animate-ping"></span>
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      {/* Toast Notification Alert with Spring Animation */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 24, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.94 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+            className="fixed bottom-6 right-6 z-50 bg-[#c3f400] text-[#161e00] font-mono-code text-xs font-bold px-4 py-3 border-2 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] flex items-center gap-2"
+          >
+            <span className="w-2 h-2 bg-black rounded-full animate-ping"></span>
+            <span>{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Obsidian Header Navigation */}
       <Navbar
@@ -151,14 +167,14 @@ export default function App() {
         selectedProductId={selectedProductId}
         onSelectProduct={(id) => {
           setSelectedProductId(id);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }}
         selectedCategory={selectedCategory}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
           setSelectedProductId(null);
           setActiveTab('shop');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }}
         products={PRODUCTS}
         cartCount={totalCartCount}
@@ -166,19 +182,25 @@ export default function App() {
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
-      {/* Main Viewport Routing */}
+      {/* Main Viewport Routing with Smooth Tab & Detail Transitions */}
       <main className="flex-1">
-        {/* SHOP TAB: Either Full Detail View (like in user screenshots) or Complete Grid */}
-        {activeTab === 'shop' && (
-          <>
-            {selectedProduct ? (
+        <AnimatePresence mode="wait">
+          {/* PRODUCT DETAIL VIEW: Spotlight Zoom & Aperture Entrance (No scroll appearance) */}
+          {activeTab === 'shop' && selectedProduct && (
+            <motion.div
+              key={`product-detail-${selectedProduct.id}`}
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div>
                 <ProductDetailView
                   product={selectedProduct}
                   allProducts={PRODUCTS}
                   onSelectProduct={(id) => {
                     setSelectedProductId(id);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({ top: 0, behavior: 'instant' });
                   }}
                   onAddToCart={handleAddToCart}
                   onBuyNow={handleBuyNow}
@@ -200,7 +222,7 @@ export default function App() {
                       <button
                         onClick={() => {
                           setSelectedProductId(null);
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          window.scrollTo({ top: 0, behavior: 'instant' });
                         }}
                         className="font-mono-code text-xs text-[#c3f400] underline hover:text-white uppercase hidden sm:block"
                       >
@@ -212,52 +234,87 @@ export default function App() {
                       products={PRODUCTS.filter((p) => p.id !== selectedProduct.id)}
                       onSelectProduct={(id) => {
                         setSelectedProductId(id);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        window.scrollTo({ top: 0, behavior: 'instant' });
                       }}
                       onAddToCart={handleAddToCart}
                     />
                   </div>
                 </div>
               </div>
-            ) : (
+            </motion.div>
+          )}
+
+          {/* SHOP CATALOG GRID: Clean Fade & Staggered Reveal */}
+          {activeTab === 'shop' && !selectedProduct && (
+            <motion.div
+              key={`catalog-${selectedCategory}`}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            >
               <ProductCatalog
-                      products={PRODUCTS}
-                      selectedCategory={selectedCategory}
-                      onSelectProduct={(id) => {
+                products={PRODUCTS}
+                selectedCategory={selectedCategory}
+                onSelectProduct={(id) => {
                   setSelectedProductId(id);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.scrollTo({ top: 0, behavior: 'instant' });
                 }}
                 onAddToCart={handleAddToCart}
               />
-            )}
-          </>
-        )}
+            </motion.div>
+          )}
 
-        {/* CLASS TICKETS & GENERAL RULES TAB (SDC SCREEN) */}
-        {(activeTab === 'tickets' || activeTab === 'rules') && (
-          <ClassTicketsSection
-            onAddTicketToCart={handleAddTicketToCart}
-            onInstantBuyTicket={handleInstantBuyTicket}
-          />
-        )}
+          {/* CLASS TICKETS & GENERAL RULES TAB (SDC SCREEN) */}
+          {(activeTab === 'tickets' || activeTab === 'rules') && (
+            <motion.div
+              key="tickets-view"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <ClassTicketsSection
+                onAddTicketToCart={handleAddTicketToCart}
+                onInstantBuyTicket={handleInstantBuyTicket}
+              />
+            </motion.div>
+          )}
 
-        {/* ATHLETES ROSTER TAB */}
-        {activeTab === 'athletes' && (
-          <AthletesSection
-            products={PRODUCTS}
-            onSelectProductByName={handleSelectProductByName}
-          />
-        )}
+          {/* ATHLETES ROSTER TAB */}
+          {activeTab === 'athletes' && (
+            <motion.div
+              key="athletes-view"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <AthletesSection
+                products={PRODUCTS}
+                onSelectProductByName={handleSelectProductByName}
+              />
+            </motion.div>
+          )}
 
-        {/* ABOUT & MANIFESTO TAB */}
-        {activeTab === 'about' && (
-          <AboutSection
-            onGoToShop={() => {
-              setActiveTab('shop');
-              setSelectedProductId(null);
-            }}
-          />
-        )}
+          {/* ABOUT & MANIFESTO TAB */}
+          {activeTab === 'about' && (
+            <motion.div
+              key="about-view"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <AboutSection
+                onGoToShop={() => {
+                  setActiveTab('shop');
+                  setSelectedProductId(null);
+                }}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Cart Slide-over Drawer */}
@@ -289,6 +346,7 @@ export default function App() {
         onSelectProduct={(id) => {
           setSelectedProductId(id);
           setActiveTab('shop');
+          window.scrollTo({ top: 0, behavior: 'instant' });
         }}
         onSelectTicket={() => {
           setActiveTab('tickets');

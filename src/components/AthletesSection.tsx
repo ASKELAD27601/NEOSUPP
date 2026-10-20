@@ -2,6 +2,7 @@ import React from 'react';
 import { ATHLETES } from '../data/products';
 import { Product } from '../types';
 import { Trophy, Zap } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface AthletesSectionProps {
   products: Product[];
@@ -31,9 +32,12 @@ export const AthletesSection: React.FC<AthletesSectionProps> = ({
       {/* Athletes Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {ATHLETES.map((athlete, idx) => (
-          <div
+          <motion.div
             key={athlete.id}
-            className="bg-[#141414] border-3 border-black flex flex-col justify-between overflow-hidden neo-shadow-black hover:neo-shadow-lime transition-all duration-150 group"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#141414] border-3 border-black flex flex-col justify-between overflow-hidden neo-shadow-black hover:neo-shadow-lime transition-all duration-200 group hover:-translate-y-1"
           >
             {/* Athlete Photo */}
             <div className="relative aspect-[4/5] overflow-hidden bg-black border-b-3 border-black">
@@ -88,7 +92,7 @@ export const AthletesSection: React.FC<AthletesSectionProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
   QrCode,
   Upload
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -43,8 +44,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     receiptName: '',
     mapsLink: ''
   });
-
-  if (!isOpen) return null;
 
   const primaryCurrency = items[0]?.product.currency || 'Bs.';
   const rawSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -144,23 +143,41 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md flex items-start justify-center p-4 sm:p-6 py-10 font-mono">
-      <div className="bg-[#111111] border-4 border-black text-[#f4f4f0] w-full max-w-3xl neo-shadow-lime-lg relative overflow-hidden">
-        {/* Top Header */}
-        <div className="bg-[#181818] border-b-3 border-black p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-[#c3f400] border border-black animate-pulse"></span>
-            <span className="text-xs uppercase tracking-widest text-[#c3f400] font-bold">
-              {step === 'ticket' ? '[ RECIBO OFICIAL // ORDEN EMITIDA ]' : <>[ NEOSUPP <span className="text-[10px] text-[#c3f400]">BY NEO NUTRITION</span> CHECKOUT TERMINAL ]</>}
-            </span>
-          </div>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto flex items-start justify-center p-4 sm:p-6 py-10 font-mono">
+          {/* Animated Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-md"
             onClick={onClose}
-            className="p-1 bg-black text-white hover:text-[#c3f400] border border-[#333] transition-colors"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.96 }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#111111] border-4 border-black text-[#f4f4f0] w-full max-w-3xl neo-shadow-lime-lg relative overflow-hidden z-10"
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            {/* Top Header */}
+            <div className="bg-[#181818] border-b-3 border-black p-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 bg-[#c3f400] border border-black animate-pulse"></span>
+                <span className="text-xs uppercase tracking-widest text-[#c3f400] font-bold">
+                  {step === 'ticket' ? '[ RECIBO OFICIAL // ORDEN EMITIDA ]' : <>[ NEOSUPP <span className="text-[10px] text-[#c3f400]">BY NEO NUTRITION</span> CHECKOUT TERMINAL ]</>}
+                </span>
+              </div>
+              <button
+                onClick={onClose}
+                className="p-1 bg-black text-white hover:text-[#c3f400] border border-[#333] transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
         {/* STEP 1: FORM */}
         {step === 'form' && (
@@ -469,7 +486,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             </p>
           </div>
         )}
-      </div>
-    </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 };

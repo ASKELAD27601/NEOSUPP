@@ -20,6 +20,7 @@ import {
   Flame,
   CheckCircle2
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 
 interface ProductDetailViewProps {
@@ -90,7 +91,12 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
     <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 py-8 space-y-10 font-mono">
       {/* High-Stim Warning Banner (Neo-Brutalist Style) */}
       {isHardcore && (
-        <div className="bg-[#ff4757] text-black border-3 border-black p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-[4px_4px_0px_#ffffff]">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.24 }}
+          className="bg-[#ff4757] text-black border-3 border-black p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-[4px_4px_0px_#ffffff]"
+        >
           <div className="flex items-center gap-3">
             <div className="p-2 bg-black text-[#ff4757] border-2 border-black">
               <AlertTriangle className="w-6 h-6 animate-bounce" />
@@ -108,11 +114,16 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
           <span className="text-xs bg-black text-white px-3 py-1.5 border-2 border-black font-bold uppercase whitespace-nowrap shadow-[2px_2px_0px_#000]">
             DOSIS COMPLETA REAL
           </span>
-        </div>
+        </motion.div>
       )}
 
       {/* Navigation Breadcrumb Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#2b2b2b] pb-4">
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+        className="flex flex-wrap items-center justify-between gap-4 border-b-2 border-[#2b2b2b] pb-4"
+      >
         <div className="flex items-center gap-2 text-xs text-[#a0a09a] w-full">
           <button 
             onClick={() => onSelectProduct(null)}
@@ -128,12 +139,17 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
             {product.name}
           </span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Grid: Product Stage (Left) & Controls (Right) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* LEFT COLUMN: Visual Presentation Stage */}
-        <div className="lg:col-span-6 flex flex-col gap-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          className="lg:col-span-6 flex flex-col gap-6"
+        >
           {/* Main Visual Box */}
           <div
             className="relative bg-[#111111] border-3 p-8 md:p-12 flex flex-col items-center justify-center overflow-hidden neo-shadow-lime-lg"
@@ -172,8 +188,11 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
 
             {/* Product Centerpiece */}
             <div className={`relative z-10 w-full max-w-[420px] aspect-square flex items-center justify-center my-2 sm:my-4 ${product.category === 'combo' && product.secondaryImage && !product.tertiaryImage ? 'gap-4' : ''}`}>
-              <img
+              <motion.img
                 key={activeProductImage}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 22, delay: 0.05 }}
                 src={activeProductImage}
                 alt={`${product.name} - ${selectedSize || selectedFlavor}`}
                 className={`
@@ -184,8 +203,11 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
                 `}
               />
               {product.category === 'combo' && product.secondaryImage && (
-                <img
+                <motion.img
                   key={product.secondaryImage}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22, delay: 0.08 }}
                   src={product.secondaryImage}
                   alt="Extra product"
                   className={`
@@ -195,8 +217,11 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
                 />
               )}
               {product.category === 'combo' && product.tertiaryImage && (
-                <img
+                <motion.img
                   key={product.tertiaryImage}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22, delay: 0.1 }}
                   src={product.tertiaryImage}
                   alt="Third product"
                   className="w-[28%] -ml-10 z-10 scale-75 h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.95)] transform transition-all duration-300 hover:scale-105"
@@ -227,10 +252,15 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* RIGHT COLUMN: Info, Selectors & Actions */}
-        <div className="lg:col-span-6 flex flex-col gap-6">
+        <motion.div
+          initial={{ opacity: 0, x: 22 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+          className="lg:col-span-6 flex flex-col gap-6"
+        >
           {/* Header Title Box */}
           <div className="bg-[#141414] border-3 border-black p-5 neo-shadow-white space-y-2">
             <div className="flex items-center justify-between">
@@ -447,26 +477,36 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
                   />
                 </button>
 
-                {showNutrition && (
-                  <div className="p-4 bg-black text-xs space-y-2 border-t-2 border-black">
-                    <div className="flex justify-between border-b border-[#262626] pb-1.5">
-                      <span className="text-[#888]">PORCIÓN SUGERIDA:</span>
-                      <span className="text-white font-bold">{product.nutritionFacts.servingSize}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-[#262626] pb-1.5">
-                      <span className="text-[#888]">CALORÍAS:</span>
-                      <span className="text-[#c3f400] font-bold">{product.nutritionFacts.calories}</span>
-                    </div>
-                    <div className="space-y-1 pt-1">
-                      {product.nutritionFacts.items.map((item, idx) => (
-                        <div key={idx} className="flex justify-between text-[#ccc]">
-                          <span>{item.name}</span>
-                          <span className="text-white font-bold">{item.amount}</span>
+                <AnimatePresence>
+                  {showNutrition && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden border-t-2 border-black"
+                    >
+                      <div className="p-4 bg-black text-xs space-y-2">
+                        <div className="flex justify-between border-b border-[#262626] pb-1.5">
+                          <span className="text-[#888]">PORCIÓN SUGERIDA:</span>
+                          <span className="text-white font-bold">{product.nutritionFacts.servingSize}</span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                        <div className="flex justify-between border-b border-[#262626] pb-1.5">
+                          <span className="text-[#888]">CALORÍAS:</span>
+                          <span className="text-[#c3f400] font-bold">{product.nutritionFacts.calories}</span>
+                        </div>
+                        <div className="space-y-1 pt-1">
+                          {product.nutritionFacts.items.map((item, idx) => (
+                            <div key={idx} className="flex justify-between text-[#ccc]">
+                              <span>{item.name}</span>
+                              <span className="text-white font-bold">{item.amount}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
 
@@ -481,15 +521,25 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
                 />
               </button>
 
-              {showShipping && (
-                <div className="p-4 bg-black text-xs text-[#ccc] space-y-2 border-t-2 border-black">
-                  <p>• Despacho inmediato dentro de las primeras 24 horas.</p>
-                  <p>• Número de seguimiento por email y WhatsApp.</p>
-                </div>
-              )}
+              <AnimatePresence>
+                {showShipping && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden border-t-2 border-black"
+                  >
+                    <div className="p-4 bg-black text-xs text-[#ccc] space-y-2">
+                      <p>• Despacho inmediato dentro de las primeras 24 horas.</p>
+                      <p>• Número de seguimiento por email y WhatsApp.</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* TECHNICAL SPECS: Physical Ticket Stubs (Neo-Brutalist) */}

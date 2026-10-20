@@ -67,9 +67,13 @@
   box-shadow: 4px 4px 0px #00f0ff;
 }
 
-/* Neo-brutalist interactive tactile buttons */
+/* Neo-brutalist interactive tactile buttons & cards with smooth easing */
 .neo-btn-press {
-  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.12s cubic-bezier(0.2, 0, 0, 1);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.18s ease, 
+              border-color 0.18s ease, 
+              color 0.18s ease;
 }
 
 .neo-btn-press:hover {
@@ -77,8 +81,18 @@
 }
 
 .neo-btn-press:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px transparent !important;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px transparent !important;
+}
+
+.neo-card-hover {
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.2s ease;
+}
+
+.neo-card-hover:hover {
+  transform: translateY(-4px);
 }
 
 /* Neo-Brutalist Grid and Dot-Matrix Backgrounds */

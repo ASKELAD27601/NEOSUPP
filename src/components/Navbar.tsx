@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Search, Menu, X, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 import { PWAInstallButton } from './PWAInstallButton';
 
@@ -208,86 +209,117 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <ShoppingCart className="w-4 h-4" />
             <span className="hidden sm:inline">CART</span>
-            {cartCount > 0 && (
-              <span className="bg-black text-[#c3f400] text-[10px] px-1.5 py-0.5 border border-black min-w-[20px] text-center flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
+            <AnimatePresence>
+              {cartCount > 0 && (
+                <motion.span
+                  key={cartCount}
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.6, opacity: 0 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 25 }}
+                  className="bg-black text-[#c3f400] text-[10px] px-1.5 py-0.5 border border-black min-w-[20px] text-center flex items-center justify-center font-bold"
+                >
+                  {cartCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#111111] border-b-4 border-[#c3f400] p-5 space-y-4 font-mono">
-          <div className="text-[10px] text-[#c3f400] uppercase font-bold tracking-widest border-b border-[#262626] pb-2">
-            // NEO NAVIGATION MENU
-          </div>
-          
-          <div className="w-full flex justify-center pb-2">
-            <PWAInstallButton />
-          </div>
-          
-          <button
-            onClick={() => {
-              onSelectCategory('all');
-              setMobileMenuOpen(false);
-            }}
-            className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex items-center justify-between ${
-              selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId
-                ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
-                : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
-            }`}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="md:hidden bg-[#111111] border-b-4 border-[#c3f400] p-5 space-y-4 font-mono overflow-hidden"
           >
-            <span>CATÁLOGO COMPLETO</span>
-            {selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId && <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /></span>}
-          </button>
+            <div className="text-[10px] text-[#c3f400] uppercase font-bold tracking-widest border-b border-[#262626] pb-2">
+              // NEO NAVIGATION MENU
+            </div>
+            
+            <div className="w-full flex justify-center pb-2">
+              <PWAInstallButton />
+            </div>
+            
+            <button
+              onClick={() => {
+                onSelectCategory('all');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex items-center justify-between ${
+                selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId
+                  ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
+                  : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
+              }`}
+            >
+              <span>CATÁLOGO COMPLETO</span>
+              {selectedCategory === 'all' && activeTab === 'shop' && !selectedProductId && (
+                <img src="/favicon.png" alt="Neo" className="w-3.5 h-3.5 object-contain inline-block mix-blend-multiply" />
+              )}
+            </button>
 
-          <div className="pl-2 space-y-1.5 border-l-2 border-[#333]">
-            {[
-              { id: 'combos', label: 'PROMOS Y COMBOS' },
-              { id: 'creatinas', label: 'CREATINAS' },
-              { id: 'proteinas', label: 'PROTEINAS ISOLADAS' },
-              { id: 'preentreno', label: 'PREENTRENO Y ACCESORIOS' },
-              { id: 'snacks', label: 'SNACKS' },
-              { id: 'salsas', label: 'SALSAS GOURMET' },
-              { id: 'bienestar', label: 'SALUD Y BIENESTAR' },
-              { id: 'quemadores', label: 'QUEMADORES' },
-              { id: 'diureticos', label: 'DIURÉTICOS' },
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  onSelectCategory(cat.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`w-full text-left py-2 px-3 text-xs font-mono border-2 transition-all flex justify-between items-center ${
-                  selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId
-                    ? 'bg-[#c3f400] text-black border-black font-bold shadow-[2px_2px_0px_#ffffff]'
-                    : 'bg-[#111] text-[#a0a09a] border-transparent hover:border-white hover:text-white hover:bg-[#181818]'
-                }`}
-              >
-                <span>{selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId ? '<img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" />' : '→'} {cat.label}</span>
-              </button>
-            ))}
-          </div>
+            <div className="pl-2 space-y-1.5 border-l-2 border-[#333]">
+              {[
+                { id: 'combos', label: 'PROMOS Y COMBOS' },
+                { id: 'creatinas', label: 'CREATINAS' },
+                { id: 'proteinas', label: 'PROTEINAS ISOLADAS' },
+                { id: 'preentreno', label: 'PREENTRENO Y ACCESORIOS' },
+                { id: 'snacks', label: 'SNACKS' },
+                { id: 'salsas', label: 'SALSAS GOURMET' },
+                { id: 'bienestar', label: 'SALUD Y BIENESTAR' },
+                { id: 'quemadores', label: 'QUEMADORES' },
+                { id: 'diureticos', label: 'DIURÉTICOS' },
+              ].map((cat) => {
+                const isActive = selectedCategory === cat.id && activeTab === 'shop' && !selectedProductId;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      onSelectCategory(cat.id);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full text-left py-2 px-3 text-xs font-mono border-2 transition-all flex justify-between items-center ${
+                      isActive
+                        ? 'bg-[#c3f400] text-black border-black font-bold shadow-[2px_2px_0px_#ffffff]'
+                        : 'bg-[#111] text-[#a0a09a] border-transparent hover:border-white hover:text-white hover:bg-[#181818]'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      {isActive ? (
+                        <img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" />
+                      ) : (
+                        <span className="text-[#666]">→</span>
+                      )}
+                      <span>{cat.label}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-          <button
-            onClick={() => {
-              setActiveTab('about');
-              setMobileMenuOpen(false);
-            }}
-            className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex justify-between items-center ${
-              activeTab === 'about'
-                ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
-                : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
-            }`}
-          >
-            <span>SOMOS <span className="text-[9px] opacity-70">BY NEO NUTRITION</span></span>
-            {activeTab === 'about' && <span><img src="/favicon.png" alt="Neo" className="w-3 h-3 object-contain inline-block mix-blend-multiply" /></span>}
-          </button>
-        </div>
-      )}
+            <button
+              onClick={() => {
+                setActiveTab('about');
+                setMobileMenuOpen(false);
+              }}
+              className={`w-full text-left py-2 px-3 font-bold transition-all border-2 flex justify-between items-center ${
+                activeTab === 'about'
+                  ? 'bg-[#c3f400] text-black border-black shadow-[3px_3px_0px_#ffffff]'
+                  : 'bg-[#181818] text-white border-[#333] hover:border-white hover:bg-white hover:text-black shadow-[3px_3px_0px_#000]'
+              }`}
+            >
+              <span>SOMOS <span className="text-[9px] opacity-70">BY NEO NUTRITION</span></span>
+              {activeTab === 'about' && (
+                <img src="/favicon.png" alt="Neo" className="w-3.5 h-3.5 object-contain inline-block mix-blend-multiply" />
+              )}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

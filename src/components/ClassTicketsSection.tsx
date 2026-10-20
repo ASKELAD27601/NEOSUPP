@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { CLASS_TICKETS, GENERAL_RULES } from '../data/products';
 import { ClassTicket } from '../types';
 import { Ticket, CreditCard, DollarSign, CheckCircle2, ChevronDown, ChevronUp, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface ClassTicketsSectionProps {
   onAddTicketToCart: (ticket: ClassTicket) => void;
@@ -244,16 +245,26 @@ export const ClassTicketsSection: React.FC<ClassTicketsSectionProps> = ({
                   )}
                 </button>
 
-                {isOpen && (
-                  <div className="p-5 bg-black border-t border-[#2a2a2a] text-xs sm:text-sm text-[#d4d4cc] leading-relaxed space-y-2">
-                    <p>{rule.content}</p>
-                    {rule.highlight && (
-                      <div className="p-3 bg-[#2a0e12] border-l-3 border-[#ff4757] text-xs text-[#ffcdd2] font-bold">
-                        * IMPORTANTE: Cancelaciones con menos de 3 horas de antelación se contabilizan como sesión consumida.
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden border-t border-[#2a2a2a]"
+                    >
+                      <div className="p-5 bg-black text-xs sm:text-sm text-[#d4d4cc] leading-relaxed space-y-2">
+                        <p>{rule.content}</p>
+                        {rule.highlight && (
+                          <div className="p-3 bg-[#2a0e12] border-l-3 border-[#ff4757] text-xs text-[#ffcdd2] font-bold">
+                            * IMPORTANTE: Cancelaciones con menos de 3 horas de antelación se contabilizan como sesión consumida.
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}

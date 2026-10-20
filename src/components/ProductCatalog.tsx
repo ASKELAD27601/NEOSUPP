@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
 import { ArrowUpRight, Star, ShoppingBag, Zap, ShieldCheck, Flame, Award, CheckCircle2 } from 'lucide-react';
+import { motion } from 'motion/react';
 
 interface ProductCatalogProps {
   selectedCategory?: string;
@@ -110,15 +111,19 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           const isHovered = hoveredCard === product.id;
 
           return (
-            <div
+            <motion.div
               key={product.id}
+              layout
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.28, delay: Math.min(idx * 0.035, 0.28), ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={() => setHoveredCard(product.id)}
               onMouseLeave={() => setHoveredCard(null)}
               className={`bg-[#141414] border-3 ${
                 isHardcore
                   ? 'border-[#ff4757]'
                   : 'border-[#333333]'
-              } hover:border-[#c3f400] transition-all duration-150 flex flex-col justify-between relative group ${
+              } hover:border-[#c3f400] transition-all duration-200 flex flex-col justify-between relative group ${
                 isHovered
                   ? 'shadow-[6px_6px_0px_#c3f400] -translate-x-1 -translate-y-1'
                   : 'shadow-[4px_4px_0px_#000000]'
@@ -346,7 +351,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                 <div className="w-16 h-3 barcode-lime opacity-70"></div>
                 <span className="text-[#c3f400] font-bold">STOCK DISP</span>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
