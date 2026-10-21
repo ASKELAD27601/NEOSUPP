@@ -167,14 +167,18 @@ export default function App() {
         selectedProductId={selectedProductId}
         onSelectProduct={(id) => {
           setSelectedProductId(id);
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          if (window.scrollY > 250) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         }}
         selectedCategory={selectedCategory}
         onSelectCategory={(cat) => {
           setSelectedCategory(cat);
           setSelectedProductId(null);
           setActiveTab('shop');
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          if (window.scrollY > 250) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         }}
         products={PRODUCTS}
         cartCount={totalCartCount}
@@ -189,10 +193,10 @@ export default function App() {
           {activeTab === 'shop' && selectedProduct && (
             <motion.div
               key={`product-detail-${selectedProduct.id}`}
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.94, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: -20 }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             >
               <div>
                 <ProductDetailView
@@ -200,7 +204,9 @@ export default function App() {
                   allProducts={PRODUCTS}
                   onSelectProduct={(id) => {
                     setSelectedProductId(id);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
+                    if (id && window.scrollY > 250) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                   }}
                   onAddToCart={handleAddToCart}
                   onBuyNow={handleBuyNow}
@@ -222,9 +228,11 @@ export default function App() {
                       <button
                         onClick={() => {
                           setSelectedProductId(null);
-                          window.scrollTo({ top: 0, behavior: 'instant' });
+                          if (window.scrollY > 250) {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
                         }}
-                        className="font-mono-code text-xs text-[#c3f400] underline hover:text-white uppercase hidden sm:block"
+                        className="font-mono-code text-xs text-[#c3f400] underline hover:text-white uppercase hidden sm:block cursor-pointer"
                       >
                         VER CATÁLOGO COMPLETO →
                       </button>
@@ -234,7 +242,9 @@ export default function App() {
                       products={PRODUCTS.filter((p) => p.id !== selectedProduct.id)}
                       onSelectProduct={(id) => {
                         setSelectedProductId(id);
-                        window.scrollTo({ top: 0, behavior: 'instant' });
+                        if (window.scrollY > 250) {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
                       }}
                       onAddToCart={handleAddToCart}
                     />
@@ -248,17 +258,19 @@ export default function App() {
           {activeTab === 'shop' && !selectedProduct && (
             <motion.div
               key={`catalog-${selectedCategory}`}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, scale: 0.98, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -15 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
               <ProductCatalog
                 products={PRODUCTS}
                 selectedCategory={selectedCategory}
                 onSelectProduct={(id) => {
                   setSelectedProductId(id);
-                  window.scrollTo({ top: 0, behavior: 'instant' });
+                  if (window.scrollY > 250) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
                 }}
                 onAddToCart={handleAddToCart}
               />

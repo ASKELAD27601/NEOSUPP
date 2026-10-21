@@ -3,6 +3,7 @@ import { ATHLETES } from '../data/products';
 import { Product } from '../types';
 import { Trophy, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
+import TextAnimation from './TextAnimation';
 
 interface AthletesSectionProps {
   products: Product[];
@@ -22,7 +23,7 @@ export const AthletesSection: React.FC<AthletesSectionProps> = ({
           <span>NEO ELITE TEAM // 2026 ROSTER</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-mono font-bold text-white uppercase tracking-tight">
-          NEO ATHLETES ROSTER
+          <TextAnimation divideBy="word">NEO ATHLETES ROSTER</TextAnimation>
         </h1>
         <p className="text-xs sm:text-sm text-[#d4d4cc] max-w-2xl leading-relaxed">
           Atletas de élite, campeones de calistenia, fisicoculturismo y danza urbana que confían su preparación biológica en <strong className="text-white">NEOSUPP <span className="text-sm text-[#c3f400]">BY NEO NUTRITION</span></strong>.

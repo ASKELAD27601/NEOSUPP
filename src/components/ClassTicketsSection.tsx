@@ -3,6 +3,7 @@ import { CLASS_TICKETS, GENERAL_RULES } from '../data/products';
 import { ClassTicket } from '../types';
 import { Ticket, CreditCard, DollarSign, CheckCircle2, ChevronDown, ChevronUp, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import TextAnimation from './TextAnimation';
 
 interface ClassTicketsSectionProps {
   onAddTicketToCart: (ticket: ClassTicket) => void;
@@ -28,7 +29,7 @@ export const ClassTicketsSection: React.FC<ClassTicketsSectionProps> = ({
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold text-white uppercase tracking-tight leading-none">
-              CLASS TICKETS <span className="text-[#c3f400]">[SDC]</span>
+              <TextAnimation divideBy="word">CLASS TICKETS</TextAnimation> <span className="text-[#c3f400]">[SDC]</span>
             </h1>
 
             <p className="text-xs sm:text-sm text-[#d4d4cc] leading-relaxed">

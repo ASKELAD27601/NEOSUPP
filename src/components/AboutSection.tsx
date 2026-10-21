@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, Zap, Award, Microscope, ArrowRight } from 'lucide-react';
+import TextAnimation from './TextAnimation';
 
 interface AboutSectionProps {
   onGoToShop: () => void;
@@ -16,7 +17,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onGoToShop }) => {
         </div>
 
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-mono font-bold text-white uppercase tracking-tight leading-none">
-          RENDIMIENTO SIN COMPROMISOS // ZERO FILLERS
+          <TextAnimation divideBy="word">RENDIMIENTO SIN COMPROMISOS // ZERO FILLERS</TextAnimation>
         </h1>
 
         <p className="text-xs sm:text-sm text-[#d4d4cc] max-w-3xl leading-relaxed">

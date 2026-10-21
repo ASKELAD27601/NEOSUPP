@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
+import TextAnimation from './TextAnimation';
 
 interface ProductDetailViewProps {
   product: Product;
@@ -273,7 +274,9 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-mono font-bold text-white uppercase leading-none tracking-tight">
-              {product.name}
+              <TextAnimation key={product.id} divideBy="word" delay={0.05}>
+                {product.name}
+              </TextAnimation>
             </h1>
 
             {product.brand && (
@@ -547,7 +550,7 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 bg-[#c3f400]"></span>
           <h2 className="text-2xl sm:text-3xl font-mono font-bold text-white uppercase">
-            ESPECIFICACIONES TÉCNICAS // LAB DOSING
+            <TextAnimation divideBy="word">ESPECIFICACIONES TÉCNICAS // LAB DOSING</TextAnimation>
           </h2>
         </div>
 
@@ -627,7 +630,7 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
         {/* Left: Benefits */}
         <div className="space-y-4">
           <div className="inline-block bg-black border-2 border-[#c3f400] px-3 py-1 text-sm font-bold uppercase text-[#c3f400]">
-            BENEFICIOS CLÍNICOS //
+            <TextAnimation divideBy="word">BENEFICIOS CLÍNICOS //</TextAnimation>
           </div>
 
           <div className="border-3 border-black divide-y-2 divide-black bg-[#121212] neo-shadow-white">
@@ -656,7 +659,7 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({
         {/* Right: How to use */}
         <div className="space-y-4">
           <div className="inline-block bg-black border-2 border-[#ff4757] px-3 py-1 text-sm font-bold uppercase text-[#ff4757]">
-            MODO DE EMPLEO //
+            <TextAnimation divideBy="word">MODO DE EMPLEO //</TextAnimation>
           </div>
 
           <div className="bg-[#141414] p-6 border-3 border-black neo-shadow-lime space-y-5">

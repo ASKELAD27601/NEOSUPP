@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Product } from '../types';
-import { ArrowUpRight, Star, ShoppingBag, Zap, ShieldCheck, Flame, Award, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, Star, ShoppingBag, Zap, ShieldCheck, Flame, Award, CheckCircle2, LayoutGrid, Layers, Sparkles, Maximize2 } from 'lucide-react';
 import { motion } from 'motion/react';
+import TextAnimation from './TextAnimation';
+import ExpandableBentoGrid, { BentoItem } from './ExpandableBentoGrid';
 
 interface ProductCatalogProps {
   selectedCategory?: string;
@@ -18,6 +20,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 }) => {
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'grid' | 'bento'>('grid');
 
   const filteredProducts = products.filter((p) => {
     if (selectedCategory !== 'all') {
@@ -36,6 +39,94 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
     }
     return true;
   });
+
+  const bentoItems: BentoItem[] = filteredProducts.map((p) => ({
+    id: p.id,
+    title: p.name,
+    subtitle: p.subtitle,
+    description: `${p.specs[0]?.label || 'Dosis'}: ${p.specs[0]?.value || ''} • ${p.brand || 'NEOSUPP'}`,
+    image: p.image,
+    actionText: 'Ver Producto',
+    onAction: () => onSelectProduct(p.id),
+    content: (
+      <div className="space-y-3.5 font-mono text-xs">
+        <div className="flex items-center justify-between bg-black/70 p-3 rounded-xl border border-[#333]">
+          <div>
+            <span className="text-[10px] text-[#888] font-bold block uppercase">PRECIO OFICIAL</span>
+            <span className="text-xl font-bold text-white leading-none">
+              {p.currency === 'Bs.' ? `${p.price} ${p.currency}` : `${p.currency}${p.price.toFixed(2)}`}
+            </span>
+          </div>
+          {p.badge && (
+            <span className="bg-[#c3f400] text-black font-bold text-[10px] px-2 py-1 uppercase rounded border border-black shadow-[1px_1px_0px_#000]">
+              {p.badge}
+            </span>
+          )}
+        </div>
+
+        <div>
+          <span className="text-[10px] text-[#c3f400] font-bold uppercase tracking-wider block mb-1">
+            // DESCRIPCIÓN TÉCNICA:
+          </span>
+          <p className="text-[#a0a09a] leading-relaxed text-[12px] sm:text-[13px]">
+            {p.description}
+          </p>
+        </div>
+
+        <div>
+          <span className="text-[10px] text-[#c3f400] font-bold uppercase tracking-wider block mb-1.5">
+            // LAB DOSING & ESPECIFICACIONES:
+          </span>
+          <div className="grid grid-cols-2 gap-2">
+            {p.specs.slice(0, 4).map((spec, sIdx) => (
+              <div key={sIdx} className="bg-[#1f1f1f] border border-[#333] p-2 rounded-lg">
+                <span className="text-[9px] text-[#888] block uppercase truncate">{spec.label}</span>
+                <span className="text-white font-bold block truncate">{spec.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {p.flavors && p.flavors.length > 0 && (
+          <div>
+            <span className="text-[10px] text-[#888] font-bold uppercase tracking-wider block mb-1">
+              SABORES DISPONIBLES:
+            </span>
+            <div className="flex flex-wrap gap-1">
+              {p.flavors.map((fl, fIdx) => (
+                <span key={fIdx} className="text-[10px] bg-black px-2 py-0.5 border border-[#333] text-[#d4d4cc] rounded">
+                  {fl}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="pt-2 flex flex-col sm:flex-row gap-2 border-t border-[#262626]">
+          <button
+            onClick={() => {
+              onAddToCart(
+                p,
+                p.flavors?.[0] || 'UNFLAVORED',
+                p.sizes?.[0] || 'STANDARD',
+                1
+              );
+            }}
+            className="flex-1 bg-[#c3f400] hover:bg-[#b0dc00] text-black font-mono font-bold text-xs uppercase py-2.5 px-3 rounded-xl border-2 border-black flex items-center justify-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#000] transition-colors"
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Añadir al Carrito</span>
+          </button>
+          <button
+            onClick={() => onSelectProduct(p.id)}
+            className="bg-black hover:bg-[#1a1a1a] text-white hover:text-[#c3f400] font-mono font-bold text-xs uppercase py-2.5 px-3 rounded-xl border border-[#444] hover:border-[#c3f400] flex items-center justify-center gap-1 cursor-pointer transition-colors"
+          >
+            <span>Ficha Completa →</span>
+          </button>
+        </div>
+      </div>
+    ),
+  }));
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-4 md:px-8 py-4 sm:py-8 space-y-5 sm:space-y-8 font-mono">
@@ -90,7 +181,10 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           </div>
           
           <h1 className="text-3xl md:text-5xl font-mono font-black text-white uppercase tracking-tight leading-none">
-            MR VEINZ <span className="text-transparent [-webkit-text-stroke:1px_#ff4757]">PUMP FORMULA</span>
+            <TextAnimation divideBy="word" delay={0.05}>MR VEINZ</TextAnimation>{' '}
+            <span className="text-transparent [-webkit-text-stroke:1px_#ff4757]">
+              <TextAnimation divideBy="word" delay={0.15}>PUMP FORMULA</TextAnimation>
+            </span>
           </h1>
           <p className="text-[#ff9999] text-xs max-w-lg font-mono">
             La fórmula definitiva de óxido nítrico para bombeos extremos, vascularidad y entrega de nutrientes. 6g de L-Citrulina por servicio.
@@ -104,8 +198,65 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </div>
       </div>
 
-        {/* Grid of Neo-Brutalist Product Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {/* View Mode Switcher & Counter */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 pb-1 border-b border-[#2b2b2b]">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] sm:text-xs text-[#888] font-bold uppercase tracking-wider">
+            MODO DE VISUALIZACIÓN:
+          </span>
+          <div className="inline-flex p-1 bg-[#161616] border-2 border-[#333] rounded-lg">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`px-3 py-1.5 text-xs font-bold font-mono uppercase rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === 'grid'
+                  ? 'bg-[#c3f400] text-black shadow-[2px_2px_0px_#000]'
+                  : 'text-[#888] hover:text-white'
+              }`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+              <span>Cuadrícula</span>
+            </button>
+            <button
+              onClick={() => setViewMode('bento')}
+              className={`px-3 py-1.5 text-xs font-bold font-mono uppercase rounded-md transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === 'bento'
+                  ? 'bg-[#c3f400] text-black shadow-[2px_2px_0px_#000]'
+                  : 'text-[#aaa] hover:text-[#c3f400]'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Bento Expandible</span>
+              <span className="bg-[#ff4757] text-white text-[8px] px-1 py-0.2 rounded font-bold ml-1 animate-pulse">
+                ANIMADO
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div className="text-xs text-[#888] font-mono flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[#c3f400] animate-ping" />
+          <span>MOSTRANDO <strong className="text-white">{filteredProducts.length}</strong> PRODUCTOS</span>
+        </div>
+      </div>
+
+      {viewMode === 'bento' ? (
+        <div className="py-2">
+          <div className="bg-[#121212] border-2 border-[#2b2b2b] p-4 rounded-xl mb-6 flex items-center justify-between shadow-[4px_4px_0px_#000]">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-[#c3f400]/10 border border-[#c3f400] text-[#c3f400] rounded-lg">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-white font-bold text-sm uppercase">Modo Bento Card Expandible</h4>
+                <p className="text-xs text-[#888]">Haz clic en cualquier tarjeta para desplegar su ficha interactiva con animación fluida sin scroll brusco.</p>
+              </div>
+            </div>
+          </div>
+          <ExpandableBentoGrid items={bentoItems} />
+        </div>
+      ) : (
+        /* Grid of Neo-Brutalist Product Cards */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {filteredProducts.map((product, idx) => {
           const isHardcore = product.isHardcore || product.level === 'AVANZADO';
           const isHovered = hoveredCard === product.id;
@@ -355,6 +506,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           );
         })}
       </div>
+      )}
 
 
     </div>
